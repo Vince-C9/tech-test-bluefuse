@@ -5,7 +5,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
+  phpunit:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -15,12 +15,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "Install SQLite"
+          command: sudo apt-get install php8.2-sqlite3
+      - run:
+          name: "Create database and run migration"
+          command: |
+            touch pokemon.sqlite
+            php artisan migrate --env=testing
+      - run:
+          name: "Run tests"
+          command: ./vendor/bin/phpunit tests/Feature #Could just do php artisan test here and grab all the tests, but for the sake of this the F2B tests will do fine
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
+      - phpunit
