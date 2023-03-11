@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: "Install SQLite"
-          command: sudo apt-get install php8.2-sqlite3
+          command: sudo apt-get install php8.2-sqlite
       - run:
           name: "Create database and run migration"
           command: |
