@@ -7,7 +7,7 @@ version: 2.1
 php82_web_image: &php82_web_image
   docker:
     - image: cimg/php:8.2
-  working_directory: ~/public
+  working_directory: ~/laravel
 
 php_web_common: &php_web_common
   steps:
