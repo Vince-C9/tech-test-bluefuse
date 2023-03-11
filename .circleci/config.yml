@@ -7,23 +7,18 @@ version: 2.1
 php82_web_image: &php82_web_image
   docker:
     - image: cimg/php:8.2
-  working_directory: ~/api
+  working_directory: ~/
 
 php_web_common: &php_web_common
   steps:
     - checkout
-    - restore_cache:
-        keys:
-          # "composer.lock" can be used if it is committed to the repo
-          - composer-v1-{{ checksum "composer.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - composer-v1-
+    
     # Download and cache dependencies
     - run:
         name: Install PHP Dependencies
         command: composer install -n --prefer-dist
     - save_cache:
-        key: composer-v1-{{ checksum "composer.lock" }}
+        key: composer-v1-1
         paths:
           - ./vendor
     - run:
@@ -42,7 +37,7 @@ php_web_common: &php_web_common
         name: Run PHPUnit tests
         command: |
           mkdir -p ~/phpunit
-          vendor/bin/phpunit --exclude-group=developer --log-junit ~/phpunit/junit.xml --fail-on-risky --stop-on-failure -d memory_limit=512M
+          vendor/bin/phpunit --log-junit ~/phpunit/junit.xml --fail-on-risky --stop-on-failure -d memory_limit=512M
     - store_test_results:
         path: ~/phpunit
     - store_artifacts:
