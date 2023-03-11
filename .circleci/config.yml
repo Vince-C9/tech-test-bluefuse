@@ -7,12 +7,13 @@ version: 2.1
 php82_web_image: &php82_web_image
   docker:
     - image: cimg/php:8.2
-  working_directory: ~/laravel
+  working_directory: ~/laravel/api
+
 
 php_web_common: &php_web_common
   steps:
     - checkout:
-        path: ~/api
+        path: ~/laravel
     
     # Download and cache dependencies
     - run:
