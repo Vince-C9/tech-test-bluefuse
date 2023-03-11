@@ -1,0 +1,51 @@
+version: "3"
+services:
+  api:
+    build:
+      args:
+        user: admin
+        uid: 1000
+      context: ./api/
+      dockerfile: Dockerfile
+    image: pokemon-api
+    container_name: pokemon-api
+    restart: unless-stopped
+    working_dir: /var/www/api/
+    volumes:
+      - ./:/var/www
+    networks:
+      - pokemon
+
+  db:
+    image: mysql:8.0
+    container_name: pokemon-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: pokemon
+      MYSQL_ROOT_PASSWORD: Do-You-Really-Have-To-Catch-Them-All-Though?
+      MYSQL_PASSWORD: Collectable-Cute-And-Scary-Monsters!
+      MYSQL_USER: ashketchum
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - pokemon
+
+  nginx:
+    image: nginx:alpine
+    container_name: pokemon-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - api
+    networks:
+      - pokemon
+
+networks:
+  pokemon:
+    driver: bridge
