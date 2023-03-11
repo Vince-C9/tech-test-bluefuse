@@ -2,10 +2,55 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+
+
+php82_web_image: &php82_web_image
+  docker:
+    - image: cimg/php:8.2
+  working_directory: ~/laravel/api
+
+
+php_web_common: &php_web_common
+  steps:
+    - checkout:
+        path: ~/laravel
+    
+    # Download and cache dependencies
+    - run:
+        name: Install PHP Dependencies
+        command: composer install -n --prefer-dist
+    - save_cache:
+        key: composer-v1-{{ checksum "composer.lock" }}
+        paths:
+          - ./vendor
+    - run:
+        name: Setup environment file for tests
+        command: cp .env.testing .env
+    - run:
+        name: Create SQLite Database (for testing)
+        command: touch database/database.sqlite
+    - run:
+        name: Migrate the database
+        command: php artisan migrate --env=testing --database=sqlite --force
+    - run:
+        name: Set application encryption key
+        command: php artisan key:generate
+    - run:
+        name: Run PHPUnit tests
+        command: |
+          mkdir -p ~/phpunit
+          vendor/bin/phpunit --exclude-group=developer --log-junit ~/phpunit/junit.xml --fail-on-risky --stop-on-failure -d memory_limit=512M
+    - store_test_results:
+        path: ~/phpunit
+    - store_artifacts:
+        path: ~/phpunit
+
 jobs:
-  say-hello:
+  php82_web:
+    <<: *php82_web_image
+    <<: *php_web_common
+
+  phpunit:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -15,12 +60,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "Create database and run migration"
+          command: |
+            touch pokemon.sqlite
+            php artisan migrate --env=testing
+      - run:
+          name: "Run tests"
+          command: ./vendor/bin/phpunit tests/Feature #Could just do php artisan test here and grab all the tests, but for the sake of this the F2B tests will do fine
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  build:
     jobs:
-      - say-hello
+      - php82_web
