@@ -15,9 +15,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Install SQLite"
-          command: sudo apt update && sudo apt-get install php8.1-sqlite
-      - run:
           name: "Create database and run migration"
           command: |
             touch pokemon.sqlite
