@@ -11,7 +11,8 @@ php82_web_image: &php82_web_image
 
 php_web_common: &php_web_common
   steps:
-    - checkout
+    - checkout:
+        path: ~/api
     
     # Download and cache dependencies
     - run:
