@@ -16,7 +16,9 @@ php_web_common: &php_web_common
     # Download and cache dependencies
     - run:
         name: Install PHP Dependencies
-        command: composer install -n --prefer-dist
+        command: 
+          cd ~/api 
+          composer install -n --prefer-dist
     - save_cache:
         key: composer-v1-{{ checksum "composer.lock" }}
         paths:
