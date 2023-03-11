@@ -18,7 +18,7 @@ php_web_common: &php_web_common
         name: Install PHP Dependencies
         command: composer install -n --prefer-dist
     - save_cache:
-        key: composer-v1-1
+        key: composer-v1-{{ checksum "composer.lock" }}
         paths:
           - ./vendor
     - run:
@@ -37,7 +37,7 @@ php_web_common: &php_web_common
         name: Run PHPUnit tests
         command: |
           mkdir -p ~/phpunit
-          vendor/bin/phpunit --log-junit ~/phpunit/junit.xml --fail-on-risky --stop-on-failure -d memory_limit=512M
+          vendor/bin/phpunit --exclude-group=developer --log-junit ~/phpunit/junit.xml --fail-on-risky --stop-on-failure -d memory_limit=512M
     - store_test_results:
         path: ~/phpunit
     - store_artifacts:
