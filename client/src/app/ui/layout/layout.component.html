@@ -1,1 +1,21 @@
-<p>layout works!</p>
+<!DOCTYPE html>
+<html>
+<app-header></app-header>
+<body class="text-gray-800 antialiased">
+<main>
+  <section class="absolute w-full h-full">
+    <div
+      class="absolute top-0 w-full h-full bg-gray-900"
+      style="background-image: url(./assets/img/unown_background.webp); background-size: 100%; background-repeat: no-repeat;"
+    ></div>
+    <app-uploadcsv></app-uploadcsv>
+  </section>
+</main>
+</body>
+<script>
+  function toggleNavbar(collapseID) {
+    document.getElementById(collapseID).classList.toggle("hidden");
+    document.getElementById(collapseID).classList.toggle("block");
+  }
+</script>
+</html>
