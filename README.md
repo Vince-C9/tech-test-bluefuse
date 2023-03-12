@@ -34,3 +34,13 @@ API - Get Pokemon
 API (Postman) - Post Pokemon
 ![image](https://user-images.githubusercontent.com/78065068/224577217-52b7f091-aded-4046-937a-fb69534ec118.png)
 
+
+# Circle CI in action
+Circle running tests
+![image](https://user-images.githubusercontent.com/78065068/224577652-e303247d-66e7-4fee-9893-3943145c24a1.png)
+
+
+Circle passing in PR
+![screenshot-circle-1](https://user-images.githubusercontent.com/78065068/224577668-0ff1f6a0-9374-43e5-988b-695de364ded2.png)
+
+
