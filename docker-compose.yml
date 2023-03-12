@@ -18,6 +18,21 @@ services:
     networks:
       - pokemon
 
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    image: pokemon-client
+    container_name: pokemon-client
+    restart: unless-stopped
+    working_dir: /var/www/client/
+    volumes:
+      - ./:/var/www
+    networks:
+      - pokemon
+
   pkmndb:
     image: mysql:8.0
     container_name: pkmndb
