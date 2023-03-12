@@ -7,6 +7,8 @@ services:
         uid: 1000
       context: ./api/
       dockerfile: Dockerfile
+    depends_on:
+      - pkmndb
     image: pokemon-api
     container_name: pokemon-api
     restart: unless-stopped
@@ -16,9 +18,9 @@ services:
     networks:
       - pokemon
 
-  db:
+  pkmndb:
     image: mysql:8.0
-    container_name: pokemon-db
+    container_name: pkmndb
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: pokemon
@@ -27,6 +29,8 @@ services:
       MYSQL_USER: ashketchum
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
+    ports:
+      - 3306:3306
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
