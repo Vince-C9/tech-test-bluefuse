@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import {HttpClient} from "@angular/common/http";
-import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-uploadcsv',
