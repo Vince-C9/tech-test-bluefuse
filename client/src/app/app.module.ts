@@ -11,6 +11,12 @@ import { ViewComponent } from './view/view.component';
 import { HomeComponent } from './home/home.component';
 import { PokemonlistComponent } from './component/forms/pokemonlist/pokemonlist.component';
 
+//Last minute fix to resolve issue with nginx config trying to load /view as a page.
+//Alternative fix is to adjust nginx config to provision for how angular works.
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+
+
 
 @NgModule({
   declarations: [
@@ -27,7 +33,7 @@ import { PokemonlistComponent } from './component/forms/pokemonlist/pokemonlist.
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
