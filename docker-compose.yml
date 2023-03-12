@@ -7,6 +7,8 @@ services:
         uid: 1000
       context: ./api/
       dockerfile: Dockerfile
+    depends_on:
+      - pkmndb
     image: pokemon-api
     container_name: pokemon-api
     restart: unless-stopped
@@ -16,9 +18,24 @@ services:
     networks:
       - pokemon
 
-  db:
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    image: pokemon-client
+    container_name: pokemon-client
+    restart: unless-stopped
+    working_dir: /var/www/client/
+    volumes:
+      - ./:/var/www
+    networks:
+      - pokemon
+
+  pkmndb:
     image: mysql:8.0
-    container_name: pokemon-db
+    container_name: pkmndb
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: pokemon
@@ -27,6 +44,8 @@ services:
       MYSQL_USER: ashketchum
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
+    ports:
+      - 3306:3306
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
@@ -49,3 +68,7 @@ services:
 networks:
   pokemon:
     driver: bridge
+
+#Considerations for improvement
+# - Redis installation & link between either/or/both client and api for caching & sessions.
+# - PHPredis extension and module installed on API container.
