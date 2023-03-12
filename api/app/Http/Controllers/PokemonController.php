@@ -44,4 +44,13 @@ class PokemonController extends Controller
             'responseTime'=>microtime(true) - LARAVEL_START.' seconds'
         ], 200);
     }
+
+    /**
+     * Returns a list of pokemon in json format
+     *
+     * @return mixed
+     */
+    public function show(){
+        return Pokemon::get()->toJson();
+    }
 }

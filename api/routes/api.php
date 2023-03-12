@@ -29,6 +29,7 @@ Route::get('/', function(Request $request){
 
 
 Route::post("/pokemon", [PokemonController::class, 'store'])->name("pokemon.store");
+Route::get('/pokemon', [PokemonController::class, 'show'])->name('pokemon.get');
 
 /*
  * Can protect our routes either by calling middleware via the providers, or thus.  In this case there is no login.

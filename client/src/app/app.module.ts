@@ -4,19 +4,23 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './ui/layout/layout.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { UploadcsvComponent } from './component/forms/uploadcsv/uploadcsv.component';
+import { ViewComponent } from './view/view.component';
+import { HomeComponent } from './home/home.component';
+import { PokemonlistComponent } from './component/forms/pokemonlist/pokemonlist.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent,
     HeaderComponent,
     FooterComponent,
-    UploadcsvComponent
+    UploadcsvComponent,
+    ViewComponent,
+    HomeComponent,
+    PokemonlistComponent
   ],
   imports: [
     BrowserModule,

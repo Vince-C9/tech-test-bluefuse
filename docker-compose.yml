@@ -68,3 +68,7 @@ services:
 networks:
   pokemon:
     driver: bridge
+
+#Considerations for improvement
+# - Redis installation & link between either/or/both client and api for caching & sessions.
+# - PHPredis extension and module installed on API container.

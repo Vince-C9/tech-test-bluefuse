@@ -74,3 +74,6 @@ workflows:
   build:
     jobs:
       - php82_web
+
+
+#Would like to have written & added cypress tests to this, but time was a factor.
