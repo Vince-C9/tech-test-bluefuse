@@ -18,7 +18,7 @@ The focus throughout this has been on the following:
 - run `docker-compose exec pokemon-api php artisan migrate`
 - Client should handle the npm run/build etc when you run `docker-compose build`.  this will need to be re-run when you make changes to the client side.
 
-#Images
+# Images
 Client - Upload
 ![screenshot-upload-csv](https://user-images.githubusercontent.com/78065068/224576725-ef394772-e701-49a8-983d-1a3f16aa57de.png)
 
